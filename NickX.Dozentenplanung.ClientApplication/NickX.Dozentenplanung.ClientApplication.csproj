@@ -7,27 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\privat\NickX.WinForms.UI.Scheduling\NickX.WinForms.UI.Scheduling.csproj" />
+    <ProjectReference Include="..\NickX.Dozentenplanung.Utils\NickX.Dozentenplanung.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DevExpress.Data.Desktop.v20.2">
-      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 20.2\.NET Core Desktop Libraries\Bin\NetCore\DevExpress.Data.Desktop.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.Data.v20.2">
-      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 20.2\.NET Core Desktop Libraries\Bin\Standard\DevExpress.Data.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v20.2">
-      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 20.2\.NET Core Desktop Libraries\Bin\NetCore\DevExpress.XtraScheduler.v20.2.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.XtraScheduler.v20.2.Core">
-      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 20.2\.NET Core Desktop Libraries\Bin\Standard\DevExpress.XtraScheduler.v20.2.Core.dll</HintPath>
-    </Reference>
     <Reference Include="NickX.WinForms.Transitions">
-      <HintPath>..\..\..\..\.ressourcen\NickX\NickX.WinForms.Transitions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms.Calendar">
-      <HintPath>..\..\..\..\.ressourcen\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar.dll</HintPath>
+      <HintPath>..\..\..\..\.dll\NickX\NickX.WinForms.Transitions.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,12 +1,9 @@
-﻿using DevExpress.XtraScheduler;
-using NickX.WinForms.UI.Scheduling;
+﻿using NickX.Dozentenplanung.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.Calendar;
 using Transitions;
 
 namespace NickX.Dozentenplanung.ClientApplication
