@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="DevExpress.XtraScheduler.v20.2">
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 20.2\Components\Bin\Framework\DevExpress.XtraScheduler.v20.2.dll</HintPath>
+    </Reference>
+    <Reference Include="NickX.WinForms.Transitions">
+      <HintPath>..\..\..\..\.ressourcen\NickX\NickX.WinForms.Transitions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.Calendar">
+      <HintPath>..\..\..\..\.ressourcen\System.Windows.Forms.Calendar\System.Windows.Forms.Calendar.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
