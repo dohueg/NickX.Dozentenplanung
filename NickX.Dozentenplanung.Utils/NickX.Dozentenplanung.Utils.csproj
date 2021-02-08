@@ -54,5 +54,10 @@
     <Compile Include="XCalendarItem.cs" />
     <Compile Include="XCalendarUser.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="XCalendar.resx">
+      <DependentUpon>XCalendar.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

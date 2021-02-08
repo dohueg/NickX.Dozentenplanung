@@ -29,8 +29,17 @@ namespace NickX.Dozentenplanung.Utils
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // XCalendar
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "XCalendar";
+            this.Load += new System.EventHandler(this.XCalendar_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.XCalendar_Paint);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

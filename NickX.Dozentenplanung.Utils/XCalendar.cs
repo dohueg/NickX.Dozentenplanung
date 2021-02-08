@@ -10,10 +10,10 @@ namespace NickX.Dozentenplanung.Utils
     public partial class XCalendar : UserControl, INotifyPropertyChanged
     {
         public List<XCalendarUser> Users { get; set; }
-
+        public DateTime StartDateTime { get; set; }
         [DefaultValue(DayOfWeek.Monday)]
         public DayOfWeek FirstDayOfWeek { get; set; }
-
+        public Color FillColorCurrentDateRow { get; set; }
         public Color BorderColorGrid { get; set; }
         public Color BorderColorGridRow { get; set; }
         public Color BorderColorGridColumn { get; set; }
@@ -102,7 +102,7 @@ namespace NickX.Dozentenplanung.Utils
             var desc_col_rect = new Rectangle(new Point(1, description_row_height + 1), new Size(description_column_width - 1, full_height - 1));
             var desc_row_rect = new Rectangle(new Point(description_column_width + 1, 1), new Size(full_width - 1, description_row_height - 1));
             e.Graphics.FillRectangle(new SolidBrush(bez_pen.Color), desc_col_rect);
-            e.Graphics.FillRectangle(new SolidBrush(bez_pen.Color), desc_row_rect);
+            //e.Graphics.FillRectangle(new SolidBrush(bez_pen.Color), desc_row_rect);
 
             // Draw BackColor
             //if (Users.Count > 0)
@@ -126,9 +126,11 @@ namespace NickX.Dozentenplanung.Utils
                 var col_x = description_column_width;
                 for (int x = 0; x < col_count; x++)
                 {
+                    var rect_col = new Rectangle(new Point(col_x, 1), new Size(col_width, description_row_height));
                     var user = Users[x];
                     var short_name = user.ShortName;
                     var desc_size = e.Graphics.MeasureString(short_name, desc_font);
+                    e.Graphics.FillRectangle(new SolidBrush(user.Color), rect_col);
                     e.Graphics.DrawLine(pen_column_border, new Point(col_x, 0), new Point(col_x, full_height + description_row_height));
                     e.Graphics.DrawString(user.ShortName, desc_font, desc_brush, new Point(col_x + (int)(col_width / 2 - desc_size.Width / 2), (int)(description_row_height / 2 - desc_size.Height / 2)));
                     col_x += col_width;
@@ -137,7 +139,7 @@ namespace NickX.Dozentenplanung.Utils
 
             // Draw Rows
             var row_y = description_row_height;
-            DateTime dt = DateTime.Now.AddDays(10);
+            DateTime dt = StartDateTime == null ? DateTime.Now : StartDateTime;
             switch (this._calendarView)
             {
                 case CalendarViews.Week:
@@ -147,10 +149,14 @@ namespace NickX.Dozentenplanung.Utils
                     dt = new DateTime(dt.Year, dt.Month, 1);
                     break;
             }
+
             for (int x = 0; x < row_count; x++)
             {
+                var rect_row = new Rectangle(new Point(1, row_y), new Size(description_column_width - 1, row_height));
                 var s = dt.ToString("dd.MM");
+                var cur_row_fill_color = dt.Date == DateTime.Now.Date ? this.FillColorCurrentDateRow : Color.Transparent; 
                 var s_size = e.Graphics.MeasureString(s, desc_font);
+                e.Graphics.FillRectangle(new SolidBrush(cur_row_fill_color), rect_row);
                 e.Graphics.DrawLine(pen_row_border, new Point(0, row_y), new Point(full_width + description_column_width, row_y));
                 e.Graphics.DrawString(s, desc_font, desc_brush, new Point((int)(description_column_width / 2 - s_size.Width / 2), row_y + 3));
 

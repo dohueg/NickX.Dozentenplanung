@@ -29,23 +29,16 @@ namespace NickX.Dozentenplanung.ClientApplication
         {
             _calendar = new XCalendar();
             _calendar.Dock = DockStyle.Fill;
+            _calendar.FillColorCurrentDateRow = Color.FromArgb(42, 191, 159);
+            _calendar.StartDateTime = DateTime.Now.AddDays(1);
             _calendar.FirstDayOfWeek = DayOfWeek.Monday;
             _calendar.BackColor = Color.Transparent;
             _calendar.BorderColorGrid = calendar_holder.BackColor;
             _calendar.BorderColorGridColumn = Color.FromArgb(220, 220, 220);
             _calendar.BorderColorGridRow = Color.FromArgb(120, 120, 120);
             _calendar.CalendarView = CalendarViews.Day;
-            for (int x = 0; x < 10; x++)
-            {
-                _calendar.Users.Add(
-                    new XCalendarUser()
-                    {
-                        ShortName = "user-" + x
-                    }
-                    );
-            }
+            _calendar.Users = GetTestUsers();
             calendar_holder.Controls.Add(_calendar);
-
         }
 
         private void InitializeMainMenuButtons()
@@ -260,5 +253,65 @@ namespace NickX.Dozentenplanung.ClientApplication
         {
             _calendar.CalendarView = CalendarViews.Month;
         }
+
+
+        #region Test Data
+        private List<XCalendarUser> GetTestUsers()
+        {
+            var u1 = new XCalendarUser()
+            {
+                Name = "Nick Hügin",
+                ShortName = "dh",
+                Color = Color.FromArgb(224, 138, 163)
+            };
+            var u2 = new XCalendarUser()
+            {
+                Name = "Thomas Bilinder",
+                ShortName = "tb",
+                Color = Color.FromArgb(195, 155, 194)
+            };
+            var u3 = new XCalendarUser()
+            {
+                Name = "Vivian Baudach",
+                ShortName = "dh",
+                Color = Color.FromArgb(201, 184, 194)
+            };
+            var u4 = new XCalendarUser()
+            {
+                Name = "Susanne Wernien",
+                ShortName = "suw",
+                Color = Color.FromArgb(156, 194, 208)
+            };
+            var u5 = new XCalendarUser()
+            {
+                Name = "Betty Haver",
+                ShortName = "bh",
+                Color = Color.FromArgb(255, 194, 0)
+            };
+            var u6 = new XCalendarUser()
+            {
+                Name = "Claudia Vörkel",
+                ShortName = "cv",
+                Color = Color.FromArgb(119, 179, 75)
+            };
+            var u7 = new XCalendarUser()
+            {
+                Name = "Marie Herweg",
+                ShortName = "mh",
+                Color = Color.FromArgb(173, 134, 94)
+            };
+
+            return new List<XCalendarUser>()
+            {
+                u1,
+                u2,
+                u3,
+                u4,
+                u5,
+                u6,
+                u7
+            };
+        }
+        #endregion
     }
 }
