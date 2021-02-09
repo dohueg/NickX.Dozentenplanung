@@ -10,14 +10,21 @@ namespace NickX.Dozentenplanung.ClientApplication
 {
     public partial class FormMain : Form
     {
-        bool main_menu_expanded;
-        //List<Button> main_menu_buttons;
-        Dictionary<Button, String> main_menu_buttons;
-        Dictionary<Button, String> view_change_buttons;
+        private bool main_menu_expanded;
+        private Dictionary<Button, String> main_menu_buttons;
+        private Dictionary<Button, String> view_change_buttons;
         private XCalendar _calendar;
+        
+        public static Session UserSession { get; set; }
 
         public FormMain()
         {
+            UserSession = new Session()
+            {
+                ConnectionString = $""
+            };
+
+
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true); // this is to avoid visual artifacts
             InitializeMainMenuButtons();
@@ -36,8 +43,16 @@ namespace NickX.Dozentenplanung.ClientApplication
             _calendar.BorderColorGrid = calendar_holder.BackColor;
             _calendar.BorderColorGridColumn = Color.FromArgb(220, 220, 220);
             _calendar.BorderColorGridRow = Color.FromArgb(120, 120, 120);
+            _calendar.FillColorWeekendDays = Color.White;
             _calendar.CalendarView = CalendarViews.Day;
+
             _calendar.Users = GetTestUsers();
+            //using (var db = new XDbContext(UserSession.ConnectionString))
+            //{
+            //    var q = from u in db.CalendarUsers select u;
+            //    _calendar.Users = q.ToList();
+            //}
+
             calendar_holder.Controls.Add(_calendar);
         }
 
@@ -130,6 +145,7 @@ namespace NickX.Dozentenplanung.ClientApplication
         private void MainMenuCollapse_Complete(object sender, Transition.Args e)
         {
             _calendar.Invalidate();
+            _calendar.PopulateGrid();
         }
 
         #region Move Form by Dragging panel
@@ -155,7 +171,7 @@ namespace NickX.Dozentenplanung.ClientApplication
 
         private void FormMain_Resize(object sender, EventArgs e)
         {
-            _calendar.Invalidate();
+            //_calendar.Invalidate();
         }
 
         //protected override void OnPaint(PaintEventArgs e) // you can safely omit this method if you want
@@ -223,6 +239,21 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.Close();
         }
 
+        private void button_hide_details_panel_Click(object sender, EventArgs e)
+        {
+            var t = new Transition(new EaseInEaseOutTransition(175));
+            t.add(panel_details, "ForeColor", panel_details.BackColor);
+            t.TransitionCompletedEvent += T_TransitionCompletedEvent;
+            t.run();
+        }
+
+        private void T_TransitionCompletedEvent(object sender, Transition.Args e)
+        {
+            var t = new Transition(new EaseInEaseOutTransition(175));
+            t.add(panel_details, "Width", 0);
+            t.run();
+        }
+
         private void button_close_application_MouseEnter(object sender, EventArgs e)
         {
             ((Button)sender).ForeColor = Color.White;
@@ -255,49 +286,49 @@ namespace NickX.Dozentenplanung.ClientApplication
         }
 
 
-        #region Test Data
+        #region Data
         private List<XCalendarUser> GetTestUsers()
         {
             var u1 = new XCalendarUser()
             {
                 Name = "Nick Hügin",
-                ShortName = "dh",
+                Shortname = "dh",
                 Color = Color.FromArgb(224, 138, 163)
             };
             var u2 = new XCalendarUser()
             {
                 Name = "Thomas Bilinder",
-                ShortName = "tb",
+                Shortname = "tb",
                 Color = Color.FromArgb(195, 155, 194)
             };
             var u3 = new XCalendarUser()
             {
                 Name = "Vivian Baudach",
-                ShortName = "dh",
+                Shortname = "dh",
                 Color = Color.FromArgb(201, 184, 194)
             };
             var u4 = new XCalendarUser()
             {
                 Name = "Susanne Wernien",
-                ShortName = "suw",
+                Shortname = "suw",
                 Color = Color.FromArgb(156, 194, 208)
             };
             var u5 = new XCalendarUser()
             {
                 Name = "Betty Haver",
-                ShortName = "bh",
+                Shortname = "bh",
                 Color = Color.FromArgb(255, 194, 0)
             };
             var u6 = new XCalendarUser()
             {
                 Name = "Claudia Vörkel",
-                ShortName = "cv",
+                Shortname = "cv",
                 Color = Color.FromArgb(119, 179, 75)
             };
             var u7 = new XCalendarUser()
             {
                 Name = "Marie Herweg",
-                ShortName = "mh",
+                Shortname = "mh",
                 Color = Color.FromArgb(173, 134, 94)
             };
 

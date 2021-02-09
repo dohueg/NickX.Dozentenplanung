@@ -1,7 +1,7 @@
 ﻿
-namespace NickX.Dozentenplanung.Utils
+namespace NickX.Dozentenplanung.ClientApplication.UI.CustomControls
 {
-    partial class XCalendar
+    partial class CalendarItemControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,18 +29,8 @@ namespace NickX.Dozentenplanung.Utils
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // XCalendar
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "XCalendar";
-            this.Padding = new System.Windows.Forms.Padding(5);
-            this.Load += new System.EventHandler(this.XCalendar_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.XCalendar_Paint);
-            this.ResumeLayout(false);
-
         }
 
         #endregion

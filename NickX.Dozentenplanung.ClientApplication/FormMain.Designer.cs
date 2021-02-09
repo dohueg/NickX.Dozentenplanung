@@ -80,13 +80,16 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.content_holder = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.calendar_holder = new System.Windows.Forms.Panel();
-            this.button_backward = new System.Windows.Forms.Panel();
+            this.details_panel_holder = new System.Windows.Forms.Panel();
             this.drag_panel = new System.Windows.Forms.Panel();
             this.button_forward = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.button_backward = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.panel_details = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button_hide_details_panel = new NickX.Dozentenplanung.ClientApplication.UI.CustomControls.RoundedButton();
             this.main_menu_holder.SuspendLayout();
             this.main_menu.SuspendLayout();
             this.panel18.SuspendLayout();
@@ -106,7 +109,9 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel_z.SuspendLayout();
             this.content_holder.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.details_panel_holder.SuspendLayout();
             this.drag_panel.SuspendLayout();
+            this.panel_details.SuspendLayout();
             this.SuspendLayout();
             // 
             // main_menu_holder
@@ -690,7 +695,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             // 
             this.content_holder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(239)))), ((int)(((byte)(243)))));
             this.content_holder.Controls.Add(this.panel1);
-            this.content_holder.Controls.Add(this.button_backward);
+            this.content_holder.Controls.Add(this.details_panel_holder);
             this.content_holder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.content_holder.Location = new System.Drawing.Point(0, 50);
             this.content_holder.Name = "content_holder";
@@ -715,20 +720,21 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.calendar_holder.Size = new System.Drawing.Size(487, 634);
             this.calendar_holder.TabIndex = 0;
             // 
-            // button_backward
+            // details_panel_holder
             // 
-            this.button_backward.BackColor = System.Drawing.Color.White;
-            this.button_backward.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button_backward.Location = new System.Drawing.Point(507, 0);
-            this.button_backward.Name = "button_backward";
-            this.button_backward.Size = new System.Drawing.Size(200, 654);
-            this.button_backward.TabIndex = 0;
+            this.details_panel_holder.BackColor = System.Drawing.Color.White;
+            this.details_panel_holder.Controls.Add(this.panel_details);
+            this.details_panel_holder.Dock = System.Windows.Forms.DockStyle.Right;
+            this.details_panel_holder.Location = new System.Drawing.Point(507, 0);
+            this.details_panel_holder.Name = "details_panel_holder";
+            this.details_panel_holder.Size = new System.Drawing.Size(200, 654);
+            this.details_panel_holder.TabIndex = 0;
             // 
             // drag_panel
             // 
             this.drag_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(72)))), ((int)(((byte)(77)))));
             this.drag_panel.Controls.Add(this.button_forward);
-            this.drag_panel.Controls.Add(this.button4);
+            this.drag_panel.Controls.Add(this.button_backward);
             this.drag_panel.Controls.Add(this.button3);
             this.drag_panel.Controls.Add(this.button2);
             this.drag_panel.Controls.Add(this.button1);
@@ -752,18 +758,18 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.button_forward.TabIndex = 5;
             this.button_forward.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // button_backward
             // 
-            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(0, 0);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(50, 50);
-            this.button4.TabIndex = 4;
-            this.button4.UseVisualStyleBackColor = true;
+            this.button_backward.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_backward.BackgroundImage")));
+            this.button_backward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_backward.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_backward.FlatAppearance.BorderSize = 0;
+            this.button_backward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_backward.Location = new System.Drawing.Point(0, 0);
+            this.button_backward.Name = "button_backward";
+            this.button_backward.Size = new System.Drawing.Size(50, 50);
+            this.button_backward.TabIndex = 4;
+            this.button_backward.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -804,6 +810,46 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.button1.TabIndex = 1;
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // panel_details
+            // 
+            this.panel_details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_details.BackColor = System.Drawing.Color.Silver;
+            this.panel_details.Controls.Add(this.button_hide_details_panel);
+            this.panel_details.Controls.Add(this.label3);
+            this.panel_details.Location = new System.Drawing.Point(0, 0);
+            this.panel_details.Name = "panel_details";
+            this.panel_details.Size = new System.Drawing.Size(200, 654);
+            this.panel_details.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(6, 48);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(42, 15);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Details";
+            // 
+            // button_hide_details_panel
+            // 
+            this.button_hide_details_panel.BackColor = System.Drawing.Color.Transparent;
+            this.button_hide_details_panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button_hide_details_panel.FlatAppearance.BorderSize = 0;
+            this.button_hide_details_panel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_hide_details_panel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.button_hide_details_panel.Image = ((System.Drawing.Image)(resources.GetObject("button_hide_details_panel.Image")));
+            this.button_hide_details_panel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button_hide_details_panel.Location = new System.Drawing.Point(0, 0);
+            this.button_hide_details_panel.Name = "button_hide_details_panel";
+            this.button_hide_details_panel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.button_hide_details_panel.Radius = 1;
+            this.button_hide_details_panel.Size = new System.Drawing.Size(200, 40);
+            this.button_hide_details_panel.TabIndex = 13;
+            this.button_hide_details_panel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button_hide_details_panel.UseVisualStyleBackColor = false;
+            this.button_hide_details_panel.Click += new System.EventHandler(this.button_hide_details_panel_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -840,7 +886,10 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel_z.ResumeLayout(false);
             this.content_holder.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.details_panel_holder.ResumeLayout(false);
             this.drag_panel.ResumeLayout(false);
+            this.panel_details.ResumeLayout(false);
+            this.panel_details.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -888,7 +937,7 @@ namespace NickX.Dozentenplanung.ClientApplication
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Panel button_backward;
+        private System.Windows.Forms.Panel details_panel_holder;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel calendar_holder;
         private System.Windows.Forms.Panel panel24;
@@ -903,7 +952,10 @@ namespace NickX.Dozentenplanung.ClientApplication
         private System.Windows.Forms.Panel panel23;
         private UI.CustomControls.CustomCheckbox customCheckbox1;
         private System.Windows.Forms.Button button_forward;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button_backward;
+        private System.Windows.Forms.Panel panel_details;
+        private UI.CustomControls.RoundedButton button_hide_details_panel;
+        private System.Windows.Forms.Label label3;
     }
 }
 
