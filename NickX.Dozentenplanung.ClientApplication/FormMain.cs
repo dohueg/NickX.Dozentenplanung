@@ -291,43 +291,43 @@ namespace NickX.Dozentenplanung.ClientApplication
         {
             var u1 = new XCalendarUser()
             {
-                Name = "Nick Hügin",
+                Name = "User 1",
                 Shortname = "dh",
                 Color = Color.FromArgb(224, 138, 163)
             };
             var u2 = new XCalendarUser()
             {
-                Name = "Thomas Bilinder",
+                Name = "User 2",
                 Shortname = "tb",
                 Color = Color.FromArgb(195, 155, 194)
             };
             var u3 = new XCalendarUser()
             {
-                Name = "Vivian Baudach",
+                Name = "User 3",
                 Shortname = "dh",
                 Color = Color.FromArgb(201, 184, 194)
             };
             var u4 = new XCalendarUser()
             {
-                Name = "Susanne Wernien",
+                Name = "User 4",
                 Shortname = "suw",
                 Color = Color.FromArgb(156, 194, 208)
             };
             var u5 = new XCalendarUser()
             {
-                Name = "Betty Haver",
+                Name = "User 5",
                 Shortname = "bh",
                 Color = Color.FromArgb(255, 194, 0)
             };
             var u6 = new XCalendarUser()
             {
-                Name = "Claudia Vörkel",
+                Name = "User 6",
                 Shortname = "cv",
                 Color = Color.FromArgb(119, 179, 75)
             };
             var u7 = new XCalendarUser()
             {
-                Name = "Marie Herweg",
+                Name = "User 7",
                 Shortname = "mh",
                 Color = Color.FromArgb(173, 134, 94)
             };
