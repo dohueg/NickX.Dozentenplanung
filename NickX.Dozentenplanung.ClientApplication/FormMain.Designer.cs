@@ -32,7 +32,6 @@ namespace NickX.Dozentenplanung.ClientApplication
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.main_menu_holder = new System.Windows.Forms.Panel();
             this.main_menu = new System.Windows.Forms.Panel();
-            this.button_close_application = new System.Windows.Forms.Button();
             this.panel18 = new System.Windows.Forms.Panel();
             this.panel19 = new System.Windows.Forms.Panel();
             this.panel20 = new System.Windows.Forms.Panel();
@@ -59,6 +58,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.button_close_application = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label_logo = new System.Windows.Forms.Label();
             this.sub_menu_holder = new System.Windows.Forms.Panel();
@@ -81,15 +81,15 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel1 = new System.Windows.Forms.Panel();
             this.calendar_holder = new System.Windows.Forms.Panel();
             this.details_panel_holder = new System.Windows.Forms.Panel();
+            this.panel_details = new System.Windows.Forms.Panel();
+            this.button_hide_details_panel = new NickX.Dozentenplanung.ClientApplication.UI.CustomControls.RoundedButton();
+            this.label3 = new System.Windows.Forms.Label();
             this.drag_panel = new System.Windows.Forms.Panel();
             this.button_forward = new System.Windows.Forms.Button();
             this.button_backward = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.panel_details = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button_hide_details_panel = new NickX.Dozentenplanung.ClientApplication.UI.CustomControls.RoundedButton();
             this.main_menu_holder.SuspendLayout();
             this.main_menu.SuspendLayout();
             this.panel18.SuspendLayout();
@@ -110,8 +110,8 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.content_holder.SuspendLayout();
             this.panel1.SuspendLayout();
             this.details_panel_holder.SuspendLayout();
-            this.drag_panel.SuspendLayout();
             this.panel_details.SuspendLayout();
+            this.drag_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // main_menu_holder
@@ -121,13 +121,12 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.main_menu_holder.Dock = System.Windows.Forms.DockStyle.Left;
             this.main_menu_holder.Location = new System.Drawing.Point(2, 2);
             this.main_menu_holder.Name = "main_menu_holder";
-            this.main_menu_holder.Size = new System.Drawing.Size(200, 704);
+            this.main_menu_holder.Size = new System.Drawing.Size(200, 796);
             this.main_menu_holder.TabIndex = 0;
             // 
             // main_menu
             // 
             this.main_menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(54)))), ((int)(((byte)(59)))));
-            this.main_menu.Controls.Add(this.button_close_application);
             this.main_menu.Controls.Add(this.panel18);
             this.main_menu.Controls.Add(this.menu_group_administration);
             this.main_menu.Controls.Add(this.panel14);
@@ -135,34 +134,12 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.main_menu.Controls.Add(this.panel9);
             this.main_menu.Controls.Add(this.panel8);
             this.main_menu.Controls.Add(this.panel4);
+            this.main_menu.Controls.Add(this.button_close_application);
             this.main_menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.main_menu.Location = new System.Drawing.Point(0, 50);
             this.main_menu.Name = "main_menu";
-            this.main_menu.Size = new System.Drawing.Size(200, 654);
+            this.main_menu.Size = new System.Drawing.Size(200, 746);
             this.main_menu.TabIndex = 4;
-            // 
-            // button_close_application
-            // 
-            this.button_close_application.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_close_application.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button_close_application.FlatAppearance.BorderSize = 0;
-            this.button_close_application.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.button_close_application.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.button_close_application.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_close_application.ForeColor = System.Drawing.Color.Silver;
-            this.button_close_application.Image = ((System.Drawing.Image)(resources.GetObject("button_close_application.Image")));
-            this.button_close_application.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button_close_application.Location = new System.Drawing.Point(0, 583);
-            this.button_close_application.Name = "button_close_application";
-            this.button_close_application.Padding = new System.Windows.Forms.Padding(20, 0, 10, 0);
-            this.button_close_application.Size = new System.Drawing.Size(200, 35);
-            this.button_close_application.TabIndex = 7;
-            this.button_close_application.Text = "Verlassen";
-            this.button_close_application.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button_close_application.UseVisualStyleBackColor = true;
-            this.button_close_application.Click += new System.EventHandler(this.button_close_application_Click);
-            this.button_close_application.MouseEnter += new System.EventHandler(this.button_close_application_MouseEnter);
-            this.button_close_application.MouseLeave += new System.EventHandler(this.button_close_application_MouseLeave);
             // 
             // panel18
             // 
@@ -228,6 +205,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.button_benutzer.Text = "Benutzer";
             this.button_benutzer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button_benutzer.UseVisualStyleBackColor = true;
+            this.button_benutzer.Click += new System.EventHandler(this.button_benutzer_Click);
             // 
             // button_allgemein
             // 
@@ -366,7 +344,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel9.Controls.Add(this.panel11);
             this.panel9.Controls.Add(this.panel12);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel9.Location = new System.Drawing.Point(0, 618);
+            this.panel9.Location = new System.Drawing.Point(0, 675);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(200, 1);
             this.panel9.TabIndex = 2;
@@ -400,21 +378,23 @@ namespace NickX.Dozentenplanung.ClientApplication
             // 
             this.panel8.Controls.Add(this.button_collapse_main_menu);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel8.Location = new System.Drawing.Point(0, 619);
+            this.panel8.Location = new System.Drawing.Point(0, 676);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(200, 35);
             this.panel8.TabIndex = 1;
             // 
             // button_collapse_main_menu
             // 
-            this.button_collapse_main_menu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_collapse_main_menu.BackgroundImage")));
             this.button_collapse_main_menu.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_collapse_main_menu.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button_collapse_main_menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_collapse_main_menu.FlatAppearance.BorderSize = 0;
             this.button_collapse_main_menu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_collapse_main_menu.Location = new System.Drawing.Point(150, 0);
+            this.button_collapse_main_menu.Image = ((System.Drawing.Image)(resources.GetObject("button_collapse_main_menu.Image")));
+            this.button_collapse_main_menu.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button_collapse_main_menu.Location = new System.Drawing.Point(0, 0);
             this.button_collapse_main_menu.Name = "button_collapse_main_menu";
-            this.button_collapse_main_menu.Size = new System.Drawing.Size(50, 35);
+            this.button_collapse_main_menu.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.button_collapse_main_menu.Size = new System.Drawing.Size(200, 35);
             this.button_collapse_main_menu.TabIndex = 0;
             this.button_collapse_main_menu.UseVisualStyleBackColor = true;
             this.button_collapse_main_menu.Click += new System.EventHandler(this.button_collapse_main_menu_Click);
@@ -455,6 +435,29 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel5.Size = new System.Drawing.Size(10, 1);
             this.panel5.TabIndex = 1;
             // 
+            // button_close_application
+            // 
+            this.button_close_application.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_close_application.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button_close_application.FlatAppearance.BorderSize = 0;
+            this.button_close_application.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.button_close_application.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.button_close_application.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_close_application.ForeColor = System.Drawing.Color.Silver;
+            this.button_close_application.Image = ((System.Drawing.Image)(resources.GetObject("button_close_application.Image")));
+            this.button_close_application.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button_close_application.Location = new System.Drawing.Point(0, 711);
+            this.button_close_application.Name = "button_close_application";
+            this.button_close_application.Padding = new System.Windows.Forms.Padding(20, 0, 10, 0);
+            this.button_close_application.Size = new System.Drawing.Size(200, 35);
+            this.button_close_application.TabIndex = 7;
+            this.button_close_application.Text = "Verlassen";
+            this.button_close_application.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button_close_application.UseVisualStyleBackColor = true;
+            this.button_close_application.Click += new System.EventHandler(this.button_close_application_Click);
+            this.button_close_application.MouseEnter += new System.EventHandler(this.button_close_application_MouseEnter);
+            this.button_close_application.MouseLeave += new System.EventHandler(this.button_close_application_MouseLeave);
+            // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(54)))), ((int)(((byte)(59)))));
@@ -487,7 +490,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.sub_menu_holder.Dock = System.Windows.Forms.DockStyle.Left;
             this.sub_menu_holder.Location = new System.Drawing.Point(202, 2);
             this.sub_menu_holder.Name = "sub_menu_holder";
-            this.sub_menu_holder.Size = new System.Drawing.Size(200, 704);
+            this.sub_menu_holder.Size = new System.Drawing.Size(200, 796);
             this.sub_menu_holder.TabIndex = 2;
             // 
             // sub_menu
@@ -499,7 +502,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.sub_menu.Location = new System.Drawing.Point(0, 50);
             this.sub_menu.Name = "sub_menu";
             this.sub_menu.Padding = new System.Windows.Forms.Padding(10);
-            this.sub_menu.Size = new System.Drawing.Size(200, 654);
+            this.sub_menu.Size = new System.Drawing.Size(200, 746);
             this.sub_menu.TabIndex = 5;
             // 
             // panel25
@@ -688,7 +691,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel_z.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel_z.Location = new System.Drawing.Point(402, 2);
             this.panel_z.Name = "panel_z";
-            this.panel_z.Size = new System.Drawing.Size(707, 704);
+            this.panel_z.Size = new System.Drawing.Size(816, 796);
             this.panel_z.TabIndex = 3;
             // 
             // content_holder
@@ -699,7 +702,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.content_holder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.content_holder.Location = new System.Drawing.Point(0, 50);
             this.content_holder.Name = "content_holder";
-            this.content_holder.Size = new System.Drawing.Size(707, 654);
+            this.content_holder.Size = new System.Drawing.Size(816, 746);
             this.content_holder.TabIndex = 6;
             // 
             // panel1
@@ -709,7 +712,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(507, 654);
+            this.panel1.Size = new System.Drawing.Size(566, 746);
             this.panel1.TabIndex = 1;
             // 
             // calendar_holder
@@ -717,7 +720,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.calendar_holder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.calendar_holder.Location = new System.Drawing.Point(10, 10);
             this.calendar_holder.Name = "calendar_holder";
-            this.calendar_holder.Size = new System.Drawing.Size(487, 634);
+            this.calendar_holder.Size = new System.Drawing.Size(546, 726);
             this.calendar_holder.TabIndex = 0;
             // 
             // details_panel_holder
@@ -725,10 +728,51 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.details_panel_holder.BackColor = System.Drawing.Color.White;
             this.details_panel_holder.Controls.Add(this.panel_details);
             this.details_panel_holder.Dock = System.Windows.Forms.DockStyle.Right;
-            this.details_panel_holder.Location = new System.Drawing.Point(507, 0);
+            this.details_panel_holder.Location = new System.Drawing.Point(566, 0);
             this.details_panel_holder.Name = "details_panel_holder";
-            this.details_panel_holder.Size = new System.Drawing.Size(200, 654);
+            this.details_panel_holder.Padding = new System.Windows.Forms.Padding(10);
+            this.details_panel_holder.Size = new System.Drawing.Size(250, 746);
             this.details_panel_holder.TabIndex = 0;
+            // 
+            // panel_details
+            // 
+            this.panel_details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_details.BackColor = System.Drawing.Color.White;
+            this.panel_details.Controls.Add(this.button_hide_details_panel);
+            this.panel_details.Controls.Add(this.label3);
+            this.panel_details.Location = new System.Drawing.Point(40, 10);
+            this.panel_details.Name = "panel_details";
+            this.panel_details.Size = new System.Drawing.Size(0, 654);
+            this.panel_details.TabIndex = 0;
+            // 
+            // button_hide_details_panel
+            // 
+            this.button_hide_details_panel.BackColor = System.Drawing.Color.Transparent;
+            this.button_hide_details_panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button_hide_details_panel.FlatAppearance.BorderSize = 0;
+            this.button_hide_details_panel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_hide_details_panel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.button_hide_details_panel.Image = ((System.Drawing.Image)(resources.GetObject("button_hide_details_panel.Image")));
+            this.button_hide_details_panel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button_hide_details_panel.Location = new System.Drawing.Point(0, 0);
+            this.button_hide_details_panel.Name = "button_hide_details_panel";
+            this.button_hide_details_panel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.button_hide_details_panel.Radius = 1;
+            this.button_hide_details_panel.Size = new System.Drawing.Size(0, 40);
+            this.button_hide_details_panel.TabIndex = 13;
+            this.button_hide_details_panel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button_hide_details_panel.UseVisualStyleBackColor = false;
+            this.button_hide_details_panel.Click += new System.EventHandler(this.button_hide_details_panel_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(6, 48);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(42, 15);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Details";
             // 
             // drag_panel
             // 
@@ -741,7 +785,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.drag_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.drag_panel.Location = new System.Drawing.Point(0, 0);
             this.drag_panel.Name = "drag_panel";
-            this.drag_panel.Size = new System.Drawing.Size(707, 50);
+            this.drag_panel.Size = new System.Drawing.Size(816, 50);
             this.drag_panel.TabIndex = 2;
             this.drag_panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.drag_panel_MouseMove);
             // 
@@ -778,7 +822,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.button3.Dock = System.Windows.Forms.DockStyle.Right;
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(557, 0);
+            this.button3.Location = new System.Drawing.Point(666, 0);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(50, 50);
             this.button3.TabIndex = 3;
@@ -791,7 +835,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.button2.Dock = System.Windows.Forms.DockStyle.Right;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(607, 0);
+            this.button2.Location = new System.Drawing.Point(716, 0);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(50, 50);
             this.button2.TabIndex = 2;
@@ -804,68 +848,28 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(657, 0);
+            this.button1.Location = new System.Drawing.Point(766, 0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(50, 50);
             this.button1.TabIndex = 1;
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // panel_details
-            // 
-            this.panel_details.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel_details.BackColor = System.Drawing.Color.Silver;
-            this.panel_details.Controls.Add(this.button_hide_details_panel);
-            this.panel_details.Controls.Add(this.label3);
-            this.panel_details.Location = new System.Drawing.Point(0, 0);
-            this.panel_details.Name = "panel_details";
-            this.panel_details.Size = new System.Drawing.Size(200, 654);
-            this.panel_details.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(6, 48);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Details";
-            // 
-            // button_hide_details_panel
-            // 
-            this.button_hide_details_panel.BackColor = System.Drawing.Color.Transparent;
-            this.button_hide_details_panel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button_hide_details_panel.FlatAppearance.BorderSize = 0;
-            this.button_hide_details_panel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_hide_details_panel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.button_hide_details_panel.Image = ((System.Drawing.Image)(resources.GetObject("button_hide_details_panel.Image")));
-            this.button_hide_details_panel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button_hide_details_panel.Location = new System.Drawing.Point(0, 0);
-            this.button_hide_details_panel.Name = "button_hide_details_panel";
-            this.button_hide_details_panel.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.button_hide_details_panel.Radius = 1;
-            this.button_hide_details_panel.Size = new System.Drawing.Size(200, 40);
-            this.button_hide_details_panel.TabIndex = 13;
-            this.button_hide_details_panel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button_hide_details_panel.UseVisualStyleBackColor = false;
-            this.button_hide_details_panel.Click += new System.EventHandler(this.button_hide_details_panel_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(54)))), ((int)(((byte)(59)))));
-            this.ClientSize = new System.Drawing.Size(1111, 708);
+            this.ClientSize = new System.Drawing.Size(1220, 800);
             this.Controls.Add(this.panel_z);
             this.Controls.Add(this.sub_menu_holder);
             this.Controls.Add(this.main_menu_holder);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MinimumSize = new System.Drawing.Size(1080, 720);
             this.Name = "FormMain";
             this.Padding = new System.Windows.Forms.Padding(2);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.FormMain_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FormMain_Paint);
             this.Resize += new System.EventHandler(this.FormMain_Resize);
             this.main_menu_holder.ResumeLayout(false);
             this.main_menu.ResumeLayout(false);
@@ -887,9 +891,9 @@ namespace NickX.Dozentenplanung.ClientApplication
             this.content_holder.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.details_panel_holder.ResumeLayout(false);
-            this.drag_panel.ResumeLayout(false);
             this.panel_details.ResumeLayout(false);
             this.panel_details.PerformLayout();
+            this.drag_panel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

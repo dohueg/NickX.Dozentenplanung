@@ -20,6 +20,8 @@ namespace NickX.Dozentenplanung.Utils
         [Column("ref_user")]
         [ForeignKey("User")]
         public int UserId { get; set; }
+        [Column("comment")]
+        public String Comment { get; set; }
 
         public virtual XCalendarUser User { get; set; }
         public virtual ICollection<XCalendarItemHistoryEntry> HistoryEntries { get; set; }

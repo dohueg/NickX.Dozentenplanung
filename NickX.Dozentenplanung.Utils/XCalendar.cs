@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace NickX.Dozentenplanung.Utils
 {
+    public delegate void XCalendarCellClick(XCalendarCell ClickedCell);
+
     public partial class XCalendar : UserControl, INotifyPropertyChanged
     {
         public List<XCalendarUser> Users { get; set; }
         public DateTime StartDateTime { get; set; }
         [DefaultValue(DayOfWeek.Monday)]
         public DayOfWeek FirstDayOfWeek { get; set; }
-        public Color FillColorCurrentDateRow { get; set; }
-        public Color BorderColorGrid { get; set; }
-        public Color BorderColorGridRow { get; set; }
-        public Color BorderColorGridColumn { get; set; }
-        public Color FillColorWeekendDays { get; set; }
-        private List<Panel> ItemPanels;
+        public XCalendarCell SelectedXCalendarCell { get; private set; }
+
+        // Events
+        public event XCalendarCellClick XCalendarCellClicked;
 
         public CalendarViews CalendarView
         {
@@ -29,7 +31,6 @@ namespace NickX.Dozentenplanung.Utils
             }
             set
             {
-                _calendarView = value;
                 ApplyCalendarView(value);
                 NotifyPropertyChanged();
             }
@@ -42,60 +43,65 @@ namespace NickX.Dozentenplanung.Utils
             InitializeComponent();
             this.Dock = DockStyle.Fill;
             this.Users = new List<XCalendarUser>();
-            this.ItemPanels = new List<Panel>();
         }
 
-        public void PopulateGrid()
+        public void VisualizeCalendar()
         {
-            //this.Controls.Clear();
-            //var col_count = this.Users.Count;
-            //var row_count = 0;
-            //switch (_calendarView)
-            //{
-            //    case CalendarViews.Day:
-            //        row_count = 1;
-            //        break;
-            //    case CalendarViews.Week:
-            //        row_count = 7;
-            //        break;
-            //    case CalendarViews.Month:
-            //        row_count = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            //        break;
-            //}
-            //var full_width = this.Width - 10;
-            //var full_height = this.Height - 10;
+            grid.DataSource = null;
+            grid.Columns.Clear();
+            grid.Rows.Clear();
 
-            //var desc_col_height = 30;
-            //var desc_row_width = 65;
+            var dt = new DataTable();
 
-            //var all_cols_width = full_width - desc_row_width;
-            //var all_rows_height = full_height - desc_col_height;
+            var col_date = new DataColumn("DATUM", typeof(String));
+            dt.Columns.Add(col_date);
+            foreach (var user in Users)
+            {
+                var col_user = new DataColumn(user.Shortname.ToUpper(), typeof(String));
+                dt.Columns.Add(col_user);
+            }
 
-            //var single_col_width = all_cols_width / col_count;
-            //var single_row_height = all_rows_height / row_count;
+            var row_count = (_calendarView == CalendarViews.Day) ? 1 : (_calendarView == CalendarViews.Week) ? 7 : DateTime.DaysInMonth(StartDateTime.Year, StartDateTime.Month);
+            var date = (_calendarView == CalendarViews.Day) ? StartDateTime : (_calendarView == CalendarViews.Week) ? DateTimeExtensions.StartOfWeek(StartDateTime, FirstDayOfWeek) : new DateTime(StartDateTime.Year, StartDateTime.Month, 1);
+            for (int i = 0; i < row_count; i++)
+            {
+                dt.Rows.Add(String.Format("{0}, {1}", new DateTimeFormatInfo().GetShortestDayName(date.DayOfWeek), date.ToString("dd.MM")));
+                date = date.AddDays(1);
+            }
+            grid.DataSource = dt;
 
-            //var x = 10;
-            //var y = 10;
-            //for (int row_index = 0; row_index < row_count; row_count++)
-            //{
-            //    for (int col_index = 0; col_index < col_count; col_count++)
-            //    {
-            //        var item_panel = new Panel()
-            //        {
-            //            Width = single_col_width,
-            //            Height = single_row_height,
-            //            Location = new Point(x, y)
-            //        };
-            //        item_panel.MouseEnter += ItemPanel_MouseEnter;
-            //        item_panel.MouseLeave += ItemPanel_MouseLeave;
+            foreach (DataGridViewColumn col in grid.Columns)
+            {
+                col.SortMode = DataGridViewColumnSortMode.NotSortable;
+                if (col.Index != 0)
+                {
+                    var user_short_name = col.HeaderText;
+                    var user = this.Users.Where(u => u.Shortname.ToUpper() == user_short_name.ToUpper()).First();
+                    col.HeaderCell.Style.BackColor = user.Color;
+                }
+            }
 
-            //        x += single_col_width;
-            //        Console.WriteLine("Added Panel -> " + item_panel.Location.ToString());
-            //        this.Controls.Add(item_panel);
-            //    }
-            //    y += single_row_height;
-            //}
-
+            foreach (DataGridViewRow row in this.grid.Rows)
+            {
+                for (int i = 1; i < this.grid.ColumnCount; i++)
+                {
+                    var cal_cell = GetCalendarCellFromIndexes(row.Index, i);
+                    var dgv_cell = row.Cells[i];
+                    dgv_cell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    if (cal_cell.Items != null)
+                    {
+                        if (cal_cell.Items.Where(item => item.LastsAllDay).Count() > 0)
+                        {
+                            dgv_cell.Value = cal_cell.Items.Where(item => item.LastsAllDay).First().Title;
+                        }
+                        else
+                        {
+                            var count = cal_cell.Items.Count();
+                            dgv_cell.Value = (count > 0) ? count.ToString() : "";
+                        }
+                    }
+                }
+            }
         }
 
         #region Property Changed Handling
@@ -111,124 +117,35 @@ namespace NickX.Dozentenplanung.Utils
 
         private void ApplyCalendarView(CalendarViews view)
         {
-            this.Invalidate();
-            PopulateGrid();
+            _calendarView = view;
+            VisualizeCalendar();
+            AdjustRowHeight();
         }
 
         private void XCalendar_Load(object sender, EventArgs e)
         {
-            PopulateGrid();
+            VisualizeCalendar();
+            AdjustRowHeight();
         }
 
-        private void XCalendar_Paint(object sender, PaintEventArgs e)
+        int CalculateRowHeight()
         {
+            var row_count = this.grid.Rows.Count;
+            var full_height = this.grid.Height;
+            var header_height = this.grid.ColumnHeadersHeight;
+            var full_rows_height = full_height - header_height;
+            var single_row_height = full_rows_height / row_count;
+            return (int)single_row_height;
+        }
 
-
-            // Pen
-            var pen_border = new Pen(BorderColorGrid);
-            var pen_row_border = new Pen(BorderColorGridRow);
-            var pen_column_border = new Pen(BorderColorGridColumn);
-
-            //var grid_pen = new Pen(Color.Black);
-            var bez_pen = new Pen(Color.FromArgb(192, 241, 231));
-
-            var description_row_height = 30;
-            var description_column_width = 65;
-
-            // Calculate Full 
-            int full_width = this.Width - 1 - description_column_width;
-            int full_height = this.Height - 1 - description_row_height;
-
-            if (this.Users.Count == 0)
+        void AdjustRowHeight()
+        {
+            var new_row_height = CalculateRowHeight();
+            foreach (DataGridViewRow row in grid.Rows)
             {
-                var s = "Keine Benutzer gefunden.";
-                var f = new Font(new FontFamily("Trebuchet MS"), 12f);
-                var s_size = e.Graphics.MeasureString(s, f);
-                var p = new Point((int)(full_width / 2) - (int)(s_size.Width / 2) + 30, 30);
-                e.Graphics.DrawString(s, f, new SolidBrush(Color.FromArgb(180, 180, 180)), p);
-                return;
+                row.Height = new_row_height;
             }
-
-            // Calculate Rows
-            int row_count = 0;
-            switch (_calendarView)
-            {
-                case CalendarViews.Day:
-                    row_count = 1;
-                    break;
-                case CalendarViews.Week:
-                    row_count = 7;
-                    break;
-                case CalendarViews.Month:
-                    row_count = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-                    break;
-            }
-            int row_height = full_height / row_count;
-
-            // Calculate Columns
-            int col_count = Users.Count;
-            int col_width = full_width / col_count;
-
-            // Draw Description Column BackColor
-            var desc_col_rect = new Rectangle(new Point(1, description_row_height + 1), new Size(description_column_width - 1, full_height - 1));
-            e.Graphics.FillRectangle(new SolidBrush(bez_pen.Color), desc_col_rect);
-
-            // Draw Border
-            var rect = new Rectangle(new Point(0, 0), new Size(this.Width - 1, this.Height - 1));
-            e.Graphics.DrawRectangle(pen_border, rect);
-
-            var desc_font = new Font(new FontFamily("Trebuchet MS"), 9f);
-            var desc_brush = new SolidBrush(Color.Black);
-
-            // Draw Columns
-            var col_x = description_column_width;
-            for (int x = 0; x < col_count; x++)
-            {
-                var rect_col = new Rectangle(new Point(col_x, 1), new Size(col_width, description_row_height));
-                var user = Users[x];
-                var short_name = user.Shortname;
-                var desc_size = e.Graphics.MeasureString(short_name, desc_font);
-                e.Graphics.FillRectangle(new SolidBrush(user.Color), rect_col);
-                e.Graphics.DrawLine(pen_column_border, new Point(col_x, 0), new Point(col_x, full_height + description_row_height));
-                e.Graphics.DrawString(short_name, desc_font, desc_brush, new Point(col_x + (int)(col_width / 2 - desc_size.Width / 2), (int)(description_row_height / 2 - desc_size.Height / 2)));
-
-                col_x += col_width;
-            }
-
-            // Draw Rows
-            var row_y = description_row_height;
-            DateTime dt = this.StartDateTime == null ? DateTime.Now : StartDateTime;
-            switch (this._calendarView)
-            {
-                case CalendarViews.Week:
-                    dt = DateTimeExtensions.StartOfWeek(dt, DayOfWeek.Monday);
-                    break;
-                case CalendarViews.Month:
-                    dt = new DateTime(dt.Year, dt.Month, 1);
-                    break;
-            }
-
-            for (int x = 0; x < row_count; x++)
-            {
-                var rect_row = new Rectangle(new Point(1, row_y), new Size(description_column_width - 1, row_height));
-                var s = new DateTimeFormatInfo().GetShortestDayName(dt.DayOfWeek) + ", " + dt.ToString("dd.MM");
-                var cur_row_fill_color = Color.Transparent;
-                if (dt.Date == DateTime.Now.Date)
-                {
-                    cur_row_fill_color = this.FillColorCurrentDateRow;
-                }
-                else if (dt.DayOfWeek == DayOfWeek.Saturday || dt.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    cur_row_fill_color = this.FillColorWeekendDays;
-                }
-                var s_size = e.Graphics.MeasureString(s, desc_font);
-                e.Graphics.FillRectangle(new SolidBrush(cur_row_fill_color), rect_row);
-                e.Graphics.DrawLine(pen_row_border, new Point(0, row_y), new Point(full_width + description_column_width, row_y));
-                e.Graphics.DrawString(s, desc_font, desc_brush, new Point((int)(description_column_width / 2 - s_size.Width / 2), row_y + 3));
-
-                dt = dt.AddDays(1);
-                row_y += row_height;
-            }
+            //this.grid.RowTemplate.Height = new_row_height;
         }
 
         private void ItemPanel_MouseEnter(object sender, EventArgs e)
@@ -241,6 +158,60 @@ namespace NickX.Dozentenplanung.Utils
             var p = (Panel)sender;
             p.BackColor = Color.Transparent;
         }
+
+        private void grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void grid_CellStateChanged(object sender, DataGridViewCellStateChangedEventArgs e)
+        {
+            if (e.Cell.ColumnIndex == 0)
+                e.Cell.Selected = false;
+        }
+
+        private void grid_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex > 0)
+                SetCellBackColor(e.ColumnIndex, e.RowIndex, Color.White);
+        }
+
+        void SetCellBackColor(int x, int y, Color color)
+        {
+            var cell = grid.Rows[y].Cells[x];
+            cell.Style.BackColor = color;
+        }
+
+        private void grid_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex > 0)
+                SetCellBackColor(e.ColumnIndex, e.RowIndex, this.grid.BackgroundColor);
+        }
+
+        private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex > 0)
+            {
+                SelectedXCalendarCell = GetCalendarCellFromIndexes(e.RowIndex, e.ColumnIndex);
+                XCalendarCellClicked?.Invoke(SelectedXCalendarCell);
+            }
+        }
+
+        private XCalendarCell GetCalendarCellFromIndexes(int row_index, int col_index)
+        {
+            var retVal = new XCalendarCell();
+            var grid_cell = this.grid.Rows[row_index].Cells[col_index];
+            var str_user = this.grid.Columns[col_index].HeaderText;
+            var user = this.Users.Where(u => u.Shortname.ToUpper() == str_user.ToUpper()).First();
+            var dt = DateTime.Parse(this.grid.Rows[row_index].Cells[0].Value.ToString().Split(',')[1].Trim());
+
+            retVal.RowIndex = row_index;
+            retVal.ColumnIndex = col_index;
+            retVal.User = user;
+            retVal.DateTime = dt;
+            return retVal;
+        }
+
     }
 
     public enum CalendarViews

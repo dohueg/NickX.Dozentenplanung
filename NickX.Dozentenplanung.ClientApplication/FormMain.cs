@@ -1,4 +1,5 @@
 ﻿using NickX.Dozentenplanung.Utils;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,7 +15,7 @@ namespace NickX.Dozentenplanung.ClientApplication
         private Dictionary<Button, String> main_menu_buttons;
         private Dictionary<Button, String> view_change_buttons;
         private XCalendar _calendar;
-        
+
         public static Session UserSession { get; set; }
 
         public FormMain()
@@ -23,7 +24,6 @@ namespace NickX.Dozentenplanung.ClientApplication
             {
                 ConnectionString = $""
             };
-
 
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true); // this is to avoid visual artifacts
@@ -35,25 +35,21 @@ namespace NickX.Dozentenplanung.ClientApplication
         private void InitializeCalendar()
         {
             _calendar = new XCalendar();
-            _calendar.Dock = DockStyle.Fill;
-            _calendar.FillColorCurrentDateRow = Color.FromArgb(42, 191, 159);
-            _calendar.StartDateTime = DateTime.Now.AddDays(1);
-            _calendar.FirstDayOfWeek = DayOfWeek.Monday;
-            _calendar.BackColor = Color.Transparent;
-            _calendar.BorderColorGrid = calendar_holder.BackColor;
-            _calendar.BorderColorGridColumn = Color.FromArgb(220, 220, 220);
-            _calendar.BorderColorGridRow = Color.FromArgb(120, 120, 120);
-            _calendar.FillColorWeekendDays = Color.White;
-            _calendar.CalendarView = CalendarViews.Day;
-
             _calendar.Users = GetTestUsers();
-            //using (var db = new XDbContext(UserSession.ConnectionString))
-            //{
-            //    var q = from u in db.CalendarUsers select u;
-            //    _calendar.Users = q.ToList();
-            //}
-
+            _calendar.StartDateTime = DateTime.Now;
+            _calendar.FirstDayOfWeek = DayOfWeek.Monday;
+            _calendar.XCalendarCellClicked += Calendar_CalendarCellClicked;
             calendar_holder.Controls.Add(_calendar);
+        }
+
+        private void Calendar_CalendarCellClicked(XCalendarCell ClickedCell)
+        {
+            details_panel_holder.Controls.Clear();
+            foreach (var item in ClickedCell.Items)
+            {
+                var item_panel = new XCalendarItemControl(item);
+                details_panel_holder.Controls.Add(item_panel);
+            }
         }
 
         private void InitializeMainMenuButtons()
@@ -120,9 +116,9 @@ namespace NickX.Dozentenplanung.ClientApplication
             var h = (main_menu_expanded) ? 2 * 35 + 5 : 3 * 35 + 5;
             var t = new Transition(new EaseInEaseOutTransition(175));
             t.add(main_menu_holder, "Width", w);
-            t.TransitionCompletedEvent += MainMenuCollapse_Complete;
             t.run();            
-            button_collapse_main_menu.BackgroundImage = i;
+            button_collapse_main_menu.Image = i;
+            button_collapse_main_menu.Padding = new Padding(0, 0, p, 0);
 
             foreach (var menu_group in new List<Panel>() { menu_group_planung, menu_group_administration })
             {
@@ -140,12 +136,6 @@ namespace NickX.Dozentenplanung.ClientApplication
             label_logo.Text = (main_menu_expanded) ? "" : "Dozentenplanung";
 
             main_menu_expanded = !main_menu_expanded;
-        }
-
-        private void MainMenuCollapse_Complete(object sender, Transition.Args e)
-        {
-            _calendar.Invalidate();
-            _calendar.PopulateGrid();
         }
 
         #region Move Form by Dragging panel
@@ -225,15 +215,6 @@ namespace NickX.Dozentenplanung.ClientApplication
             }
         }
         #endregion
-        private void FormMain_Paint(object sender, PaintEventArgs e)
-        {
-            //var p = this.Padding.All;
-            //var rect_main_menu = new Rectangle(0, 0, main_menu_holder.Width + p, main_menu_holder.Height + 2 * p);
-            //var rect_current_page = new Rectangle(main_menu_holder.Width + p, 0, label_current_page_holder.Width, 2);
-            ////e.Graphics.FillRectangle(new SolidBrush(main_menu.BackColor), rect_main_menu);
-            ////e.Graphics.FillRectangle(new SolidBrush(label_current_page.BackColor), rect_current_page);
-        }
-
         private void button_close_application_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -252,6 +233,24 @@ namespace NickX.Dozentenplanung.ClientApplication
             var t = new Transition(new EaseInEaseOutTransition(175));
             t.add(panel_details, "Width", 0);
             t.run();
+        }
+
+        private void button_benutzer_Click(object sender, EventArgs e)
+        {
+            var user = _calendar.Users[2];
+            var item = new XCalendarItem()
+            {
+                User = user,
+                Id = 3,
+                Title = "Test-Item",
+                DateBegin = DateTime.Now.AddDays(5),
+                DurationInMinutes = 120,
+                LastsAllDay = true,
+                Comment = "Ist nur zum Test da."
+            };
+
+            var item_control = new XCalendarItemControl(item);
+            details_panel_holder.Controls.Add(item_control);
         }
 
         private void button_close_application_MouseEnter(object sender, EventArgs e)
@@ -295,6 +294,21 @@ namespace NickX.Dozentenplanung.ClientApplication
                 Shortname = "dh",
                 Color = Color.FromArgb(224, 138, 163)
             };
+
+            var u1_items = new List<XCalendarItem>()
+            {
+                new XCalendarItem() { 
+                    Title = "Item 1",
+                    DateBegin = DateTime.Now
+                },
+                new XCalendarItem()
+                { 
+                    Title = "Item 2",
+                    DateBegin = DateTime.Now
+                }
+            };
+            u1.CalendarItems = u1_items;
+
             var u2 = new XCalendarUser()
             {
                 Name = "User 2",
@@ -304,7 +318,7 @@ namespace NickX.Dozentenplanung.ClientApplication
             var u3 = new XCalendarUser()
             {
                 Name = "User 3",
-                Shortname = "dh",
+                Shortname = "vb",
                 Color = Color.FromArgb(201, 184, 194)
             };
             var u4 = new XCalendarUser()
@@ -325,6 +339,20 @@ namespace NickX.Dozentenplanung.ClientApplication
                 Shortname = "cv",
                 Color = Color.FromArgb(119, 179, 75)
             };
+            var u6_items = new List<XCalendarItem>()
+            {
+                new XCalendarItem() {
+                    Title = "HomeOffice",
+                    DateBegin = DateTime.Now,
+                    LastsAllDay = true
+                },
+                new XCalendarItem()
+                {
+                    Title = "Item 2",
+                    DateBegin = DateTime.Now
+                }
+            };
+            u6.CalendarItems = u6_items;
             var u7 = new XCalendarUser()
             {
                 Name = "User 7",
